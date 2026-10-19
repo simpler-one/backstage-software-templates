@@ -37,8 +37,8 @@ spec:
       input:
         url: ./template
         values:
-          name: ${{ parameters.name }}
-          owner: ${{ parameters.owner }}
+          app_name: ${{ parameters.component_id }}
+          app_env: ${{ parameters.environment }}
 
     - id: fetchDocs
       name: Fetch Docs
@@ -47,15 +47,18 @@ spec:
         targetPath: ./community
         url: https://github.com/backstage/community/tree/main/backstage-community-sessions
 
-    - id: publish
+    - id: publish     # publish repo on github
       name: Publish
       action: publish:github
       input:
-        description: This is ${{ parameters.name }}
-        repoUrl: ${{ parameters.repoUrl }}
+        allowedHosts:
+          - github.com 
+        description: This is ${{ parameters.component_id }}
+        repoUrl: github.com?owner=simpler-one&repo=${{ parameters.component_id }}
+        protectDefaultBranch: false
         defaultBranch: 'main'
 
-    - id: register
+    - id: register    # register the repo>catalog-info on backstage
       name: Register
       action: catalog:register
       input:
