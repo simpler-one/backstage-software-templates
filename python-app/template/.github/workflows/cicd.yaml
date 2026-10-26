@@ -81,7 +81,7 @@ jobs:
       - name: deploying repo and application argocd configs
         run: |
           # 1. Register repository (Optional for public repos, required for private)
-          argocd repo add ${{ vars.APP_CHART_REPO }} --insecure
+          argocd repo add https://github.com/simpler-one/${{ values.app_name }} --insecure
 
           # 2. Create Application from declarative YAML spec
           argocd app create -f argocd-manifests/application.yaml \
