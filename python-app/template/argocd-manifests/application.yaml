@@ -9,9 +9,14 @@ spec:
     repoURL: https://github.com/simpler-one-org/${{values.app_name}}.git
     targetRevision: main 
     path: charts/${{values.app_name}}           # Folder in your repo containing K8s YAML files or Helm charts
+    helm:
+      # Specify one or more values files relative to your repo path
+      valueFiles:
+        - values.yaml
+        - values-${{values.app_env}}.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: python         # Target namespace where Flask pods will run
+    namespace: ${{values.app_env}}         # Target namespace where Flask pods will run
   syncPolicy:
     syncOptions:
       - CreateNamespace=true  # Automatically creates 'python' namespace if missing

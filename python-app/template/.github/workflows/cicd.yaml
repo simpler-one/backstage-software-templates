@@ -81,10 +81,12 @@ jobs:
       - name: deploying repo and application argocd configs
         run: |
           # 1. Register repository (Optional for public repos, required for private)
-          argocd repo add https://github.com/simpler-one-org/${{ values.app_name }} --insecure
+          repo="https://github.com/simpler-one-org/${{ values.app_name }}" 
+          argocd repo list | grep -q $repo ||argocd repo add --insecure
 
           # 2. Create Application from declarative YAML spec
-          argocd app create -f argocd-manifests/application.yaml \
+          argocd app get ${{ values.app_name }} \
+          || argocd app create -f argocd-manifests/application.yaml \
           --upsert \
           --insecure
         ##
@@ -92,3 +94,4 @@ jobs:
         run: |
             APP_NAME=$(argocd app list -o name | grep "${{values.app_name}}")
             argocd app sync "$APP_NAME"
+            argocd app wait "$APP_NAME" --timeout 180
