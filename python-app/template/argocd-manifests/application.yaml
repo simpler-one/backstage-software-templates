@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/simpler-one/${{values.app_name}}.git
+    repoURL: https://github.com/simpler-one-org/${{values.app_name}}.git
     targetRevision: master
     path: charts/${{values.app_name}}           # Folder in your repo containing K8s YAML files or Helm charts
   destination:
