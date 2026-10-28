@@ -53,6 +53,7 @@ spec:
       input:
         description: This is ${{ parameters.component_id }}
         repoUrl: github.com?owner=simpler-one-org&repo=${{ parameters.component_id }}
+        repoVisibility: public
         protectDefaultBranch: false
         defaultBranch: 'main'
 
